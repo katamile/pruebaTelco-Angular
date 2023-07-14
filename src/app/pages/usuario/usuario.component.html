@@ -1,0 +1,55 @@
+<div class="container" style="background-color: #dfdddd73;">
+  <br>
+  <button *ngIf="isAdmin" class="btn btn-info m-2" data-bs-toggle="modal" data-bs-target="#modal-nuevoUsuario">Agregar nuevo <i class="bi bi-person-add"></i></button>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Usuario</th>
+        <th scope="col">Nombres</th>
+        <th scope="col">Apellidos</th>
+        <th scope="col">Dirección</th>
+        <th scope="col">Teléfono</th>
+        <th scope="col">Foto</th>
+        <th scope="col">Estado</th>
+        <th scope="col" *ngIf="isAdmin">Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let usuario of usuarios; let i = index">
+        <th scope="row">{{ (i + 1) + (page * 8) }} </th>
+        <td>{{ usuario.username }}</td>
+        <td>{{ usuario.firstname }}</td>
+        <td>{{ usuario.lastname }}</td>
+        <td>{{ usuario.direccion }}</td>
+        <td>{{ usuario.telefono }}</td>
+        <td><img [src]="usuario.foto" alt="Foto de perfil" width="50" height="50"></td>
+        <td>{{ usuario.status == "A" ? "Activo" : "Inactivo" }}</td>
+        <td *ngIf="isAdmin">
+          <div class="d-flex gap-2">
+            <a class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modal-confirmacion" (click)="obtenerUsuario(usuario)">
+              <i class="bi bi-trash-fill"></i>
+            </a>
+            <a class="btn btn-warning" (click)="obtenerUsuarioId(usuario)">
+              <i class="bi bi-pencil-fill"></i>
+            </a>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div>
+    <ul class="pagination">
+      <li class="page-item">
+        <button [disabled]="page==0" (click)="lastPage()" class="page-link"><i class="bi bi-chevron-double-left"></i></button>
+      </li>
+      <li class="page-item" *ngFor="let pageSelected of totalPages; let i = index">
+        <a (click)="setpage(i)" class="page-link">{{i+1}}</a>
+      </li>
+      <li class="page-item">
+        <button [disabled]="page==(totalPages?.length! - 1)" (click)="nextPage()" class="page-link"><i class="bi bi-chevron-double-right"></i></button>
+      </li>
+    </ul>
+  </div>
+  <br>
+</div>
